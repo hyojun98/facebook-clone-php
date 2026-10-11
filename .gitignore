@@ -1,0 +1,7 @@
+# 로컬 개발 환경 (setup.bat 이 생성)
+/.runtime/
+/config.local.php
+
+# 업로드 파일
+/uploads/*
+!/uploads/.htaccess

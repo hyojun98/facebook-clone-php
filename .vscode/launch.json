@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // F5: 서버 시작 → 실제 Chrome 창을 띄우고 VS Code 디버거는 그 창에 연결만 함
+            // (Shift+F5 로 멈추면 서버·MySQL·Chrome 창 모두 종료)
+            "name": "Chrome에서 실행",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9222,
+            "address": "127.0.0.1",
+            "urlFilter": "http://localhost:8000/*",
+            "webRoot": "${workspaceFolder}",
+            "timeout": 20000,
+            "preLaunchTask": "서버 시작 + 디버그 Chrome (F5용)",
+            "postDebugTask": "서버 종료"
+        }
+    ]
+}

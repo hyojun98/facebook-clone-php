@@ -1,0 +1,97 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "서버 시작",
+            "detail": "MySQL + PHP 내장 서버 실행 후 브라우저 열기 (http://localhost:8000)",
+            "type": "process",
+            "command": "powershell.exe",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}\\scripts\\start.ps1"],
+            "isBackground": true,
+            "group": { "kind": "build", "isDefault": true },
+            "problemMatcher": {
+                "owner": "php-server",
+                "pattern": { "regexp": "^__never_matches__$" },
+                "background": {
+                    "activeBegins": true,
+                    "beginsPattern": "==> MySQL",
+                    "endsPattern": "Development Server .* started|이미 사용 중|setup.bat"
+                }
+            },
+            "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+        },
+        {
+            "label": "서버 시작 + 디버그 Chrome (F5용)",
+            "detail": "원격 디버깅 포트(9222)를 연 Chrome 을 띄우고 서버 시작 — VS Code 는 attach 로 연결",
+            "hide": true,
+            "type": "process",
+            "command": "powershell.exe",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}\\scripts\\start.ps1", "-DebugChrome"],
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "php-server",
+                "pattern": { "regexp": "^__never_matches__$" },
+                "background": {
+                    "activeBegins": true,
+                    "beginsPattern": "==> MySQL",
+                    "endsPattern": "Development Server .* started|이미 사용 중|setup.bat|찾을 수 없습니다"
+                }
+            },
+            "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+        },
+        {
+            "label": "서버 종료",
+            "detail": "PHP 서버와 MySQL 종료",
+            "type": "process",
+            "command": "powershell.exe",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}\\scripts\\stop.ps1"],
+            "problemMatcher": [],
+            "presentation": { "reveal": "silent", "panel": "shared" }
+        },
+        {
+            "label": "HeidiSQL 열기",
+            "detail": "HeidiSQL 로 로컬 DB(fb_clone) 열기 — 필요하면 MySQL 자동 시작",
+            "type": "process",
+            "command": "powershell.exe",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}\\scripts\\heidisql.ps1"],
+            "problemMatcher": [],
+            "presentation": { "reveal": "silent", "panel": "shared" }
+        },
+        {
+            "label": "DB 초기화 (데모 데이터)",
+            "detail": "모든 데이터와 업로드 파일을 지우고 데모 데이터로 되돌림",
+            "type": "process",
+            "command": "powershell.exe",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}\\scripts\\reset-db.ps1"],
+            "problemMatcher": [],
+            "presentation": { "reveal": "always", "panel": "shared", "focus": true }
+        },
+        {
+            "label": "로컬 환경 설치 (setup)",
+            "detail": "포터블 PHP·MySQL 다운로드 및 DB 생성 (최초 1회)",
+            "type": "process",
+            "command": "powershell.exe",
+            "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "${workspaceFolder}\\scripts\\setup.ps1"],
+            "problemMatcher": [],
+            "presentation": { "reveal": "always", "panel": "shared" }
+        },
+        {
+            "label": "PHP 문법 검사 (현재 파일)",
+            "type": "process",
+            "command": "${workspaceFolder}\\.runtime\\php\\php.exe",
+            "args": ["-l", "${file}"],
+            "problemMatcher": {
+                "owner": "php",
+                "fileLocation": "absolute",
+                "pattern": {
+                    "regexp": "^(?:PHP )?(Parse|Fatal) error:\\s+(.*) in (.*) on line (\\d+)$",
+                    "severity": 1,
+                    "message": 2,
+                    "file": 3,
+                    "line": 4
+                }
+            },
+            "presentation": { "reveal": "always", "panel": "shared" }
+        }
+    ]
+}

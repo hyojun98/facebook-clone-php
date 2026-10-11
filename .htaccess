@@ -1,0 +1,17 @@
+Options -Indexes
+DirectoryIndex index.php
+
+# 내부 파일 직접 접근 차단
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(includes|database|scripts)(/|$) - [F,L]
+    RewriteRule (^|/)\. - [F,L]
+    RewriteRule ^(config\.php|config\.local\.php|router\.php|README\.md|CONTENT\.md|[^/]+\.bat)$ - [F,L]
+</IfModule>
+
+# 업로드 용량 (mod_php 사용 시)
+<IfModule mod_php.c>
+    php_value upload_max_filesize 100M
+    php_value post_max_size 120M
+    php_value max_file_uploads 20
+</IfModule>
